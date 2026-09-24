@@ -202,7 +202,6 @@ td .role{display:block;font-family:var(--sans);font-size:11px;color:var(--ink-fa
     <a href="#timeline">时间轴</a>
     <a href="#beach">开枪之前</a>
     <a href="#qa">Q & A</a>
-    <a href="#ask">访客提问</a>
   </div>
 </nav>
 
@@ -677,32 +676,27 @@ td .role{display:block;font-family:var(--sans);font-size:11px;color:var(--ink-fa
       <p><strong>这个问题的答案，其实写在第二部法庭上。</strong>默尔索只答了一句"那是由于太阳的缘故"，引来哄笑。这句话被嘲笑，是因为它是真的：社会需要一个有动机的杀人犯——预谋、一颗罪恶的心——才能完成审判；而默尔索给出的是一个没有动机的真相。独自折返、没有理由地扣动扳机，正是整部小说的题眼：在一个要求一切行为都可以被解释的世界里，有一个人被正午钉在原地，然后一切都发生了。</p>
     </div>
   </article>
-</section>
 
-<!-- ===== 页七：访客提问 ===== -->
-<section class="page" id="ask">
-  <div class="section-head">
-    <span class="section-num">访客留言</span>
-    <h2 class="section-title">给主人提问</h2>
-    <span class="section-note">关于这本书，或这个页面</span>
-  </div>
-  <p class="ask-intro">读过《局外人》之后，你有什么想问的——关于默尔索，关于那声枪响，关于荒诞，或是关于这里任何一页。留下你的问题，主人会看到它，并在这里继续作答。</p>
-  <form id="askForm" class="ask-form" action="https://formspree.io/f/xqpalbny" method="POST">
-    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-    <div class="ask-row">
-      <label>称呼（可选）
-        <input type="text" name="称呼" placeholder="怎么称呼你" maxlength="30">
+  <article class="qa" id="askBlock">
+    <h3>留下你的问题</h3>
+    <p class="ask-intro">读过《局外人》之后，你有什么想问的——关于默尔索，关于那声枪响，关于荒诞，或是关于这里任何一页。留下你的问题，主人会看到它，并在这里继续作答。</p>
+    <form id="askForm" class="ask-form" action="https://formspree.io/f/xqpalbny" method="POST">
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+      <div class="ask-row">
+        <label>称呼（可选）
+          <input type="text" name="称呼" placeholder="怎么称呼你" maxlength="30">
+        </label>
+        <label>你从哪儿看到这个页面（可选）
+          <input type="text" name="来源" placeholder="例如：朋友分享、搜索引擎" maxlength="40">
+        </label>
+      </div>
+      <label>你的问题
+        <textarea name="问题" required minlength="5" maxlength="1000" placeholder="写下你想问的问题，例如：默尔索最后到底有没有后悔？"></textarea>
       </label>
-      <label>你从哪儿看到这个页面（可选）
-        <input type="text" name="来源" placeholder="例如：朋友分享、搜索引擎" maxlength="40">
-      </label>
-    </div>
-    <label>你的问题
-      <textarea name="问题" required minlength="5" maxlength="1000" placeholder="写下你想问的问题，例如：默尔索最后到底有没有后悔？"></textarea>
-    </label>
-    <button type="submit">送出问题</button>
-    <p class="ask-status" id="askStatus" role="status" aria-live="polite"></p>
-  </form>
+      <button type="submit">送出问题</button>
+      <p class="ask-status" id="askStatus" role="status" aria-live="polite"></p>
+    </form>
+  </article>
 </section>
 </main>
 

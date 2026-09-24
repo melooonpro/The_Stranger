@@ -680,18 +680,18 @@ td .role{display:block;font-family:var(--sans);font-size:11px;color:var(--ink-fa
   <article class="qa" id="askBlock">
     <h3>留下你的问题</h3>
     <p class="ask-intro">读过《局外人》之后，你有什么想问的——关于默尔索，关于那声枪响，关于荒诞，或是关于这里任何一页。留下你的问题，主人会看到它，并在这里继续作答。</p>
-    <form id="askForm" class="ask-form" action="https://formspree.io/f/xqpalbny" method="POST">
+    <form id="askForm" class="ask-form" action="https://formspree.io/f/xqpalbny" method="POST" autocomplete="off">
       <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
       <div class="ask-row">
         <label>称呼（可选）
-          <input type="text" name="称呼" placeholder="怎么称呼你" maxlength="30">
+          <input type="text" name="称呼" placeholder="怎么称呼你" maxlength="30" autocomplete="off">
         </label>
         <label>你从哪儿看到这个页面（可选）
-          <input type="text" name="来源" placeholder="例如：朋友分享、搜索引擎" maxlength="40">
+          <input type="text" name="来源" placeholder="例如：朋友分享、搜索引擎" maxlength="40" autocomplete="off">
         </label>
       </div>
       <label>你的问题
-        <textarea name="问题" required minlength="5" maxlength="1000" placeholder="写下你想问的问题，例如：默尔索最后到底有没有后悔？"></textarea>
+        <textarea name="问题" required minlength="5" maxlength="1000" placeholder="写下你想问的问题，例如：默尔索最后到底有没有后悔？" autocomplete="off"></textarea>
       </label>
       <button type="submit">送出问题</button>
       <p class="ask-status" id="askStatus" role="status" aria-live="polite"></p>

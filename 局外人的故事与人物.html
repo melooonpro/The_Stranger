@@ -105,6 +105,26 @@ main{max-width:980px;margin:0 auto;padding:0 32px 80px}
   .qa h3{flex-direction:row;font-size:17.5px}
 }
 
+/* ===== Ask (访客提问) ===== */
+.ask-intro{font-size:15px;color:var(--ink-soft);line-height:2;max-width:64ch;margin-bottom:26px}
+.ask-form{background:var(--paper-bright);border:1px solid var(--line);padding:30px 30px 26px;display:grid;gap:18px}
+.ask-form label{display:grid;gap:7px;font-family:var(--sans);font-size:12.5px;font-weight:700;letter-spacing:.08em;color:var(--ink)}
+.ask-form input,.ask-form textarea{font-family:var(--serif);font-size:15px;color:var(--ink);background:#fff;border:1px solid rgba(33,29,24,.22);border-radius:2px;padding:11px 13px;outline:none;transition:border-color .18s}
+.ask-form input:focus,.ask-form textarea:focus{border-color:var(--sun)}
+.ask-form textarea{min-height:130px;resize:vertical;line-height:1.8}
+.ask-form .ask-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ask-form button{justify-self:start;font-family:var(--sans);font-size:13.5px;font-weight:700;letter-spacing:.1em;color:#FFFCF4;background:var(--sun);border:none;border-radius:2px;padding:12px 30px;cursor:pointer;transition:background .18s}
+.ask-form button:hover{background:var(--sun-deep)}
+.ask-status{display:none;font-family:var(--sans);font-size:12.5px;line-height:1.8}
+.ask-status.show{display:block}
+.ask-status.ok{color:#3E6B57}
+.ask-status.err{color:#A33A2E}
+.ask-status.sending{color:var(--ink-faint)}
+@media (max-width:640px){
+  .ask-form{padding:22px 18px 20px}
+  .ask-form .ask-row{grid-template-columns:1fr}
+}
+
 /* ===== Timeline ===== */
 .tl{position:relative;border-top:1px solid var(--line)}
 .tl::before{content:"";position:absolute;top:0;bottom:0;left:109px;width:2px;background:rgba(194,87,43,.35)}
@@ -182,6 +202,7 @@ td .role{display:block;font-family:var(--sans);font-size:11px;color:var(--ink-fa
     <a href="#timeline">时间轴</a>
     <a href="#beach">开枪之前</a>
     <a href="#qa">Q & A</a>
+    <a href="#ask">访客提问</a>
   </div>
 </nav>
 
@@ -662,6 +683,32 @@ td .role{display:block;font-family:var(--sans);font-size:11px;color:var(--ink-fa
     </div>
   </article>
 </section>
+
+<!-- ===== 页七：访客提问 ===== -->
+<section class="page" id="ask">
+  <div class="section-head">
+    <span class="section-num">访客留言</span>
+    <h2 class="section-title">给主人提问</h2>
+    <span class="section-note">关于这本书，或这个页面</span>
+  </div>
+  <p class="ask-intro">读过《局外人》之后，你有什么想问的——关于默尔索，关于那声枪响，关于荒诞，或是关于这里任何一页。留下你的问题，主人会看到它，并在这里继续作答。</p>
+  <form id="askForm" class="ask-form" action="https://formspree.io/f/xqpalbny" method="POST">
+    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+    <div class="ask-row">
+      <label>称呼（可选）
+        <input type="text" name="称呼" placeholder="怎么称呼你" maxlength="30">
+      </label>
+      <label>你从哪儿看到这个页面（可选）
+        <input type="text" name="来源" placeholder="例如：朋友分享、搜索引擎" maxlength="40">
+      </label>
+    </div>
+    <label>你的问题
+      <textarea name="问题" required minlength="5" maxlength="1000" placeholder="写下你想问的问题，例如：默尔索最后到底有没有后悔？"></textarea>
+    </label>
+    <button type="submit">送出问题</button>
+    <p class="ask-status" id="askStatus" role="status" aria-live="polite"></p>
+  </form>
+</section>
 </main>
 
 <!-- ===== 脚本 ===== -->
@@ -859,6 +906,36 @@ td .role{display:block;font-family:var(--sans);font-size:11px;color:var(--ink-fa
   showDetail(null);
 
   window.addEventListener('resize', function(){ reflowGraph(); });
+})();
+
+/* 访客提问表单（Formspree 免登录提交） */
+(function(){
+  var form = document.getElementById('askForm');
+  if(!form) return;
+  var status = document.getElementById('askStatus');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    status.className = 'ask-status show sending';
+    status.textContent = '送出中……';
+    fetch(form.action, {
+      method:'POST',
+      body:new FormData(form),
+      headers:{'Accept':'application/json'}
+    }).then(function(r){
+      if(r.ok){
+        status.className = 'ask-status show ok';
+        status.textContent = '问题已送出，主人会看到它。';
+        form.reset();
+      } else {
+        return r.json().then(function(j){
+          throw new Error((j.errors && j.errors[0] && j.errors[0].message) || '提交没有成功');
+        });
+      }
+    }).catch(function(err){
+      status.className = 'ask-status show err';
+      status.textContent = '出错了：' + err.message + '。请稍后再试，或直接换个方式联系主人。';
+    });
+  });
 })();
 </script>
 </body>

@@ -1,0 +1,7 @@
+# 临时与诊断文件
+_shots/
+_tmp_*
+_backup/
+*.log
+.DS_Store
+Thumbs.db

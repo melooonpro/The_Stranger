@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>局外人的故事与人物</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F4EFE6'/%3E%3Ccircle cx='16' cy='9' r='5' fill='%23C2572B'/%3E%3Cpath d='M3 27 Q16 14 29 27 Z' fill='%23211D18'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="assets/echarts.min.js"></script>
+<script>window.echarts || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"><\/script>');</script>
+<style>
+:root{
+  --paper:#F4EFE6;
+  --paper-bright:#FFFCF4;
+  --ink:#211D18;
+  --ink-soft:#4A433B;
+  --ink-faint:rgba(33,29,24,.45);
+  --sun:#C2572B;
+  --sun-deep:#9A431F;
+  --sea:#6E7F8C;
+  --line:rgba(33,29,24,.14);
+  --serif:"Noto Serif SC",Georgia,"Songti SC","SimSun",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.9;-webkit-font-smoothing:antialiased}
+::selection{background:var(--sun);color:#fff}
+
+/* ===== Hero ===== */
+.hero{position:relative;min-height:64vh;display:flex;align-items:flex-end;overflow:hidden;background:#1C1A16}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,10,.18) 0%,rgba(20,16,10,.02) 30%,rgba(20,16,10,.55) 78%,rgba(20,16,10,.82) 100%)}
+.hero-inner{position:relative;z-index:1;max-width:980px;margin:0 auto;width:100%;padding:0 32px 48px;color:#F7F2E8}
+.hero-kicker{font-family:var(--sans);font-size:13px;letter-spacing:.42em;font-weight:500;color:rgba(247,242,232,.78);margin-bottom:16px}
+.hero h1{font-size:clamp(38px,6.6vw,70px);font-weight:900;letter-spacing:.06em;line-height:1.18;margin-bottom:12px}
+.hero h1 .accent{color:#E8A87C}
+.hero-sub{font-size:clamp(14.5px,2vw,18px);color:rgba(247,242,232,.92);max-width:62ch;font-weight:400}
+.hero-meta{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px;font-family:var(--sans)}
+.hero-meta span{font-size:12.5px;letter-spacing:.14em;color:rgba(247,242,232,.85);border:1px solid rgba(247,242,232,.34);padding:7px 14px;border-radius:999px}
+
+/* ===== Tabs ===== */
+.tabs{position:sticky;top:0;z-index:60;background:var(--paper-bright);border-bottom:1px solid var(--line)}
+.tabs-inner{max-width:980px;margin:0 auto;display:flex;gap:4px;padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs a{font-family:var(--sans);font-size:13.5px;font-weight:600;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;padding:15px 18px 13px;border-bottom:3px solid transparent;white-space:nowrap}
+.tabs a:hover{color:var(--ink)}
+.tabs a.active{color:var(--sun-deep);border-bottom-color:var(--sun)}
+
+/* ===== Page switch ===== */
+main{max-width:980px;margin:0 auto;padding:0 32px 80px}
+.page{display:none}
+.page.active{display:block}
+.section{padding:56px 0 8px}
+.section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:30px;border-bottom:1px solid var(--line);padding-bottom:16px}
+.section-num{font-family:var(--sans);font-size:12.5px;font-weight:700;letter-spacing:.28em;color:var(--sun)}
+.section-title{font-size:clamp(24px,3.6vw,32px);font-weight:900;letter-spacing:.05em}
+.section-note{margin-left:auto;font-family:var(--sans);font-size:12px;color:var(--ink-faint);letter-spacing:.1em}
+
+/* ===== Story chapters ===== */
+.chapter{display:grid;grid-template-columns:76px 1fr;gap:28px;padding:30px 0 34px;border-bottom:1px solid var(--line)}
+.chapter:last-child{border-bottom:none}
+.ch-mark{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--sun);padding-top:6px}
+.ch-mark small{display:block;font-size:11px;font-weight:400;color:var(--ink-faint);letter-spacing:.12em;margin-top:2px}
+.ch-body h3{font-size:20px;font-weight:700;margin-bottom:10px;letter-spacing:.04em}
+.ch-body p{color:var(--ink-soft);font-size:15.5px;margin-bottom:10px}
+.ch-points{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.ch-points em{font-style:normal;position:relative;cursor:help;font-family:var(--sans);font-size:12px;color:var(--sun-deep);background:rgba(194,87,43,.09);border:1px solid rgba(194,87,43,.22);padding:4px 11px;border-radius:999px;letter-spacing:.03em}
+.ch-points em .q{display:none;position:absolute;top:calc(100% + 9px);left:50%;transform:translateX(-50%);width:min(300px,68vw);background:var(--ink);color:var(--paper-bright);font-family:var(--serif);font-size:12.5px;line-height:1.8;font-weight:400;padding:12px 15px;border-radius:6px;z-index:30;text-align:left;letter-spacing:.02em;box-shadow:0 8px 24px rgba(33,29,24,.28)}
+.ch-points em .q::before{content:"原文";display:block;font-family:var(--sans);font-size:10px;letter-spacing:.24em;color:rgba(247,242,232,.55);margin-bottom:5px}
+.ch-points em .q::after{content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-bottom-color:var(--ink)}
+.ch-points em:hover .q,.ch-points em:focus .q{display:block}
+.part-divider{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:26px 0 6px;font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.24em;color:var(--ink-faint)}
+.part-divider::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ===== Comments ===== */
+.comment{display:grid;grid-template-columns:34px 1fr;gap:16px;padding:26px 0;border-bottom:1px solid var(--line)}
+.comment:last-child{border-bottom:none}
+.comment .c-no{font-family:var(--serif);font-size:22px;font-weight:900;color:var(--sun);line-height:1}
+.comment p{font-size:15px;color:var(--ink-soft);line-height:2}
+.comment .c-who{display:block;margin-top:10px;font-family:var(--sans);font-size:12px;color:var(--ink-faint)}
+.comment .c-who a{color:var(--sea);text-decoration:none;border-bottom:1px dashed var(--sea)}
+.comment .c-who a:hover{color:var(--sun-deep);border-color:var(--sun-deep)}
+
+/* ===== Spotlight (开枪特写) ===== */
+.spotlight{background:#1C1A16;color:#F4EFE6;padding:52px 44px 48px;margin:8px 0 40px;border-radius:2px;position:relative}
+.spotlight .s-kicker{font-family:var(--sans);font-size:12px;letter-spacing:.34em;color:#E8A87C;margin-bottom:14px}
+.spotlight h3{font-size:clamp(21px,3.2vw,28px);font-weight:900;letter-spacing:.04em;margin-bottom:24px;line-height:1.4}
+.spotlight .s-quote{font-size:15.5px;line-height:2.05;color:rgba(244,239,230,.92);margin-bottom:20px}
+.spotlight .s-quote .hl{color:#E8A87C}
+.spotlight .s-note{font-family:var(--sans);font-size:12.5px;color:rgba(244,239,230,.5);border-top:1px solid rgba(244,239,230,.16);padding-top:16px;line-height:1.9}
+.scene-fig{margin:8px 0 0}
+.scene-fig img{width:100%;display:block;border-radius:2px}
+.scene-fig figcaption{padding:16px 2px 0;font-family:var(--sans);font-size:12.5px;color:var(--ink-faint);line-height:1.9}
+
+/* ===== Q & A ===== */
+.qa{padding:30px 0 34px;border-bottom:1px solid var(--line)}
+.qa:last-child{border-bottom:none}
+.qa h3{display:flex;gap:12px;align-items:baseline;font-size:19px;font-weight:700;letter-spacing:.03em;margin-bottom:14px;line-height:1.6}
+.qa h3 .q-mark{font-family:var(--serif);font-size:13px;font-weight:900;color:#FFFCF4;background:var(--sun);padding:3px 11px;border-radius:999px;flex:none;align-self:flex-start;margin-top:4px}
+.qa-body p{color:var(--ink-soft);font-size:15.5px;line-height:2;margin-bottom:12px}
+.qa-body p:last-child{margin-bottom:0}
+.qa-body strong{color:var(--ink);font-weight:700}
+@media (max-width:640px){
+  .qa h3{flex-direction:row;font-size:17.5px}
+}
+
+/* ===== Timeline ===== */
+.tl{position:relative;border-top:1px solid var(--line)}
+.tl::before{content:"";position:absolute;top:0;bottom:0;left:109px;width:2px;background:rgba(194,87,43,.35)}
+.tl-row{display:grid;grid-template-columns:92px 34px 1fr;grid-column:1/-1;padding:22px 0 24px;border-bottom:1px solid var(--line)}
+.tl-time{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink);padding-top:2px;letter-spacing:.06em}
+.tl-axis{position:relative;display:flex;justify-content:center}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--paper);border:3px solid var(--sun);z-index:1;margin-top:6px;align-self:start}
+.tl-dot.alt{border-color:var(--sea)}
+.tl-body h4{font-size:17px;font-weight:700;margin-bottom:6px;letter-spacing:.03em}
+.tl-body p{font-size:14.5px;color:var(--ink-soft)}
+.tl-body p+p{margin-top:6px}
+.tl-body .tag{display:inline-block;font-family:var(--sans);font-size:11px;letter-spacing:.14em;color:var(--sea);border:1px solid rgba(110,127,140,.4);padding:2px 10px;border-radius:999px;margin-bottom:8px}
+.tl-body .tag.part1{color:var(--sun-deep);border-color:rgba(194,87,43,.4)}
+.tl-break{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:18px 0 6px;font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.24em;color:var(--ink-faint)}
+.tl-break::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ===== Graph ===== */
+.graph-wrap{background:var(--paper-bright);border:1px solid var(--line);padding:18px 18px 8px}
+#relationChart{width:100%;height:680px}
+.graph-legend{display:flex;flex-wrap:wrap;gap:14px;padding:14px 18px 20px;font-family:var(--sans);font-size:12px;color:var(--ink-soft)}
+.graph-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.graph-legend b{display:inline-block;width:22px;height:3px;margin-right:6px;vertical-align:middle;border-radius:2px}
+.graph-note{font-family:var(--sans);font-size:12px;color:var(--ink-faint);padding:0 4px 16px}
+
+/* ===== Person table ===== */
+table{width:100%;border-collapse:collapse;table-layout:fixed;background:var(--paper-bright);margin-top:34px}
+colgroup col:nth-child(1){width:22%}
+colgroup col:nth-child(2){width:44%}
+colgroup col:nth-child(3){width:34%}
+th{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.16em;text-align:left;color:var(--ink-faint);padding:12px 14px;border-bottom:2px solid var(--ink)}
+td{padding:13px 14px;font-size:14.5px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top}
+td:first-child{color:var(--ink);font-weight:600}
+td .role{display:block;font-family:var(--sans);font-size:11px;color:var(--ink-faint);letter-spacing:.1em;margin-top:2px}
+
+@media (max-width:720px){
+  main,.hero-inner,.tabs-inner{padding-left:16px;padding-right:16px}
+  .hero{min-height:56vh}
+  .chapter{grid-template-columns:1fr;gap:10px;padding:26px 0 30px}
+  .ch-mark{padding-top:0}
+  .tl,.tl-row{grid-template-columns:74px 26px 1fr}
+  .tl::before{left:87px}
+  .section{padding-top:44px}
+  #relationChart{height:560px}
+  .spotlight{padding:38px 24px 38px}
+  .comment{grid-template-columns:1fr;gap:6px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Hero ===== -->
+<header class="hero">
+  <img src="assets/hero.jpg" alt="阿尔及尔海滨，灼热阳光下的孤独背影">
+  <div class="hero-inner">
+    <div class="hero-kicker">阿尔贝 · 加缪 · 小说</div>
+    <h1>局外人<br><span class="accent">故事与人物</span></h1>
+    <p class="hero-sub">母亲之死与一次海滩枪击之间，默尔索用两周时间，把人生过成了一场"无所谓"的旁观。而后是整整十一个月——审判他的不是那颗子弹，而是葬礼上他没有流下的眼泪。</p>
+    <div class="hero-meta">
+      <span>叙事视角 · 第一人称</span>
+      <span>地点 · 阿尔及尔 / 马朗戈</span>
+      <span>第一部两周 · 第二部十一个月</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Tab 导航 ===== -->
+<nav class="tabs" id="tabs">
+  <div class="tabs-inner">
+    <a href="#story" class="active">故事情节</a>
+    <a href="#comments">书评</a>
+    <a href="#people">人物与关系</a>
+    <a href="#timeline">时间轴</a>
+    <a href="#beach">开枪之前</a>
+    <a href="#qa">Q & A</a>
+  </div>
+</nav>
+
+<main>
+<!-- ===== 页一：故事情节 ===== -->
+<section class="page active" id="story">
+  <div class="section-head">
+    <span class="section-num">情节梳理</span>
+    <h2 class="section-title">故事环节</h2>
+    <span class="section-note">从葬礼到枪击，再到判决</span>
+  </div>
+
+  <div class="part-divider">第一部 · Ⅰ–Ⅵ</div>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅰ<small>葬礼</small></div>
+    <div class="ch-body">
+      <h3>母亲去世 · 马朗戈守灵与下葬</h3>
+      <p>默尔索收到养老院电报，赶赴马朗戈奔丧。他在守灵夜拒绝开棺看母亲遗容，与守门人抽烟、喝咖啡，旁观母亲的老年朋友们整夜枯坐。次日葬礼在酷热中进行，托马·佩雷在坟前昏倒。默尔索记住的是太阳、气味与疲惫，葬礼次日便返程上班。</p>
+      <div class="ch-points">
+        <em tabindex="0">电报"母逝。明日葬。"<span class="q">养老院发来电报："母逝。明日葬。此致。"等于什么都没说。兴许是昨天吧。</span></em>
+        <em tabindex="0">拒绝看遗容<span class="q">他走近棺材，但我阻止了他。他说："您不想看看吗？"我说："不想。"</span></em>
+        <em tabindex="0">守灵抽烟喝咖啡<span class="q">我喝了。然后想抽烟。但我犹豫了一下，不知该不该当着妈妈的面这么做。我略微想了想，觉得无关紧要。</span></em>
+        <em tabindex="0">佩雷昏倒<span class="q">我还记得……佩雷的昏厥（我们说他像个脱臼的木偶人）。</span></em>
+        <em tabindex="0">"睡上十二个小时"<span class="q">最终，公交车驶进了洒满阿尔及利亚阳光的住所，我想我该跳上床，睡上十二个小时。</span></em>
+      </div>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅱ<small>周末</small></div>
+    <div class="ch-body">
+      <h3>重逢玛丽 · 无所事事的星期天</h3>
+      <p>回城次日，默尔索在港口浴场遇见前同事玛丽·卡多娜，两人亲昵、看滑稽电影、共度一夜。周日玛丽离去，他独自在阳台观察街道上一整天的人群流动，感叹"妈妈已经入葬，我也得回去上班了，说到底，一切都还是老样子"。</p>
+      <div class="ch-points">
+        <em tabindex="0">与玛丽暧昧升温<span class="q">我帮助她爬上了一只救生圈，手擦到了她的胸。她面朝着我。发丝遮住了眼睛，她止不住地笑。</span></em>
+        <em tabindex="0">独自俯瞰街道<span class="q">我学着烟草店老板，把椅子转过来，我发现这样更舒服。我又抽了两根烟……我一直在那儿凝视着天空。</span></em>
+        <em tabindex="0">"一切都还是老样子"<span class="q">我心想，又一个礼拜天要结束了，妈妈已经入葬，我也得回去上班了，说到底，一切都还是老样子。</span></em>
+      </div>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅲ<small>结识</small></div>
+    <div class="ch-body">
+      <h3>雷蒙登场 · 代写羞辱信</h3>
+      <p>周一上班，老板问起母亲岁数。夜里，邻居雷蒙·桑特斯邀默尔索吃猪血肠，讲述自己养着情妇却遭欺骗、又殴打了她的经过，并请默尔索代笔写一封羞辱情妇的信。默尔索帮他写完，雷蒙宣布"现在你是我真正的哥们儿了"。</p>
+      <div class="ch-points">
+        <em tabindex="0">雷蒙的复仇计划<span class="q">他想给她写封信，在信里"先迎头猛击她几下，再让她悔恨不已"。待她回到身边，他要先睡了她，"快要完事的时候"往她脸上啐口痰，把她轰出去。</span></em>
+        <em tabindex="0">代写羞辱信<span class="q">我开始写信。写得有点随性，不过我尽力去满足雷蒙的需求，毕竟我没理由让他感到不快。然后我大声把信读了一遍。</span></em>
+        <em tabindex="0">结为"哥们儿"<span class="q">当他说"现在，你是我真正的哥们儿了"，我才从震惊中反应过来。他把这句话重复了一遍，我应声说："是啊。"</span></em>
+      </div>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅳ<small>冲突</small></div>
+    <div class="ch-body">
+      <h3>雷蒙殴打情妇 · 警察介入 · 萨拉马诺丢狗</h3>
+      <p>周末，玛丽问默尔索爱不爱她，他答"好像并不爱"。雷蒙当众殴打情妇，警察赶来扇了他一巴掌。默尔索答应为雷蒙作证（谎称女孩"冒犯"了他）。同晚，邻居萨拉马诺的狗走失，老人崩溃落泪，默尔索莫名想起妈妈。</p>
+      <div class="ch-points">
+        <em tabindex="0">"我不喜欢警察"<span class="q">玛丽说这太恶劣了，我默然不语。她求我去叫个警察来，我说我一点也不喜欢警察。</span></em>
+        <em tabindex="0">答应作伪证<span class="q">雷蒙说，我只需证明那个女孩冒犯了他就行。我同意了这件事。</span></em>
+        <em tabindex="0">狗失踪<span class="q">我像往常一样带它去了阅兵场。集市的货摊旁边非常挤。我停下来看了一眼"越狱王"。我准备离开时，它就不见了。</span></em>
+        <em tabindex="0">老人啜泣<span class="q">他关上了他家的门，我听见他在屋里来来回回地踱步。他的床板咯吱作响。一阵奇异的微弱的声音从墙的另一边传来，我知道他在啜泣。不知道为什么，我想到了妈妈。</span></em>
+      </div>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅴ<small>转折</small></div>
+    <div class="ch-body">
+      <h3>巴黎的提议 · 玛丽的求婚</h3>
+      <p>老板提议调默尔索去巴黎办事处，他答"怎样都好"，并说"人生不可能真正改变"。玛丽求婚，他同意结婚却言明并不爱她。夜里萨拉马诺来访，讲妻子去世后养狗的往事，感叹"衰老是一种没法治愈的病"。雷蒙告知：情妇的哥哥带着阿拉伯朋友在跟踪他。</p>
+      <div class="ch-points">
+        <em tabindex="0">"怎样都好"<span class="q">我说是的，但就事论事，我觉得怎样都好。然后他问我是不是对改变自己的人生并不感兴趣，我回答说，人生不可能真正改变，实际上，每种人生的价值相差无几。</span></em>
+        <em tabindex="0">同意结婚但不爱<span class="q">我回答说那没有任何意义，不过我确实不爱她。"那为什么要娶我？"她问道。我解释说无论怎样都不重要，但只要她想要这么做，我就可以娶她。</span></em>
+        <em tabindex="0">"衰老治不好"<span class="q">但据萨拉马诺说，它真正的病根在于垂垂老矣，而衰老是一种没法治愈的病。</span></em>
+        <em tabindex="0">被阿拉伯人跟踪<span class="q">他先前那个情妇的哥哥和他的一群阿拉伯朋友成天在跟踪他。"如果今晚你回家时看见他在房子附近，就提醒我一声。"</span></em>
+      </div>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅵ<small>枪击</small></div>
+    <div class="ch-body">
+      <h3>海滨别墅 · 阳光下连开五枪</h3>
+      <p>周日，默尔索、玛丽与雷蒙赴马松的海滨别墅。海滩上与两个阿拉伯人殴斗，雷蒙被刀划伤。泉水边，雷蒙把枪交给默尔索。午后默尔索独自折返，在烈日与刀光之中扣动扳机——"我意识到自己摧毁了一种光的平衡"，随即又向尸体连射四枪。</p>
+      <div class="ch-points">
+        <em tabindex="0">沙滩殴斗<span class="q">雷蒙先动手了，即刻喊了马松过来。马松奔向了第二个人，使出浑身的劲狠揍了两拳。那人脸朝下倒在水里……而雷蒙把另一个阿拉伯人打得满脸是血。</span></em>
+        <em tabindex="0">雷蒙交枪<span class="q">雷蒙把枪递给了我，阳光照得它铮亮无比。我们伫立不动，仿佛和周遭一切都切断了联系。</span></em>
+        <em tabindex="0">烈日下的第一枪<span class="q">扳机扣动了……我一下就摆脱了汗水和烈日。我意识到自己摧毁了一种光的平衡，摧毁了曾使我欢愉的海滨那过剩的寂静。</span></em>
+        <em tabindex="0">补射四枪<span class="q">我朝那具已失去生命的身体又连射四枪，子弹沉陷在体内，不着一丝痕迹。就好像我在厄运之门上快速地连敲四下。</span></em>
+      </div>
+    </div>
+  </article>
+
+  <div class="part-divider">第二部 · Ⅰ–Ⅴ</div>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅰ<small>预审</small></div>
+    <div class="ch-body">
+      <h3>律师的警告 · 十字架下的审讯</h3>
+      <p>被捕八天后，预审法官开始讯问。律师带来坏消息：养老院的调查显示他在葬礼上"无动于衷"，这将成为指控的重要论据。律师让他说谎称自己"在竭力抑制情绪"，默尔索拒绝了："那不是真的。"预审法官追问第一枪与第二枪之间为何停顿，随后举起十字架质问他是否信上帝——默尔索答"不"。审讯持续十一个月，法官最后称他"反基督先生"。</p>
+      <div class="ch-points">
+        <em tabindex="0">"无动于衷"的指控<span class="q">他们发现我母亲最近在一家养老院逝世了。所以他们在马朗戈做了调查。预审法官了解到我在妈妈的葬礼上"无动于衷"。</span></em>
+        <em tabindex="0">"那不是真的"<span class="q">他问我，可不可以这样说：那天我在竭力抑制自己的情绪。我回答道："不可以，因为那不是真的。"</span></em>
+        <em tabindex="0">第一枪与第二枪之间<span class="q">"为什么第一枪和第二枪之间您停了一下？"再一次，我仿佛又看见红色的海滩，感到阳光在我额头上灼烧。但这一次我没回答。</span></em>
+        <em tabindex="0">十字架<span class="q">他从里面拿出一个带耶稣像的银质十字架，在空中挥舞着回到我身旁。他的声音完全变掉了，几乎是在颤抖，他吼道："您知道这是谁吗？""当然知道。"我说。</span></em>
+        <em tabindex="0">"反基督先生"<span class="q">以友善的口吻说"好了，反基督先生，今天到此为止"，此时，我惊讶地发现没什么比这些难得的瞬间更令人愉悦的了。</span></em>
+      </div>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅱ<small>牢狱</small></div>
+    <div class="ch-body">
+      <h3>玛丽最后一次探监 · 在牢房里学会生活</h3>
+      <p>玛丽隔着铁栅栏高喊"等你出来，我们就可以结婚了"，之后只收到一封信：她不是他的妻子，不准再来探望。默尔索开始适应监狱——欲望、禁烟、练习回忆房间的每个角落、睡觉十六到十八个小时，反复读一张报纸上的捷克人新闻。某天他对着铁饭盒端详自己的脸，发现自己"一直在跟自己说话"。</p>
+      <div class="ch-points">
+        <em tabindex="0">"等你出来，我们就可以结婚了"<span class="q">她又开始大声喊："等你出来，我们就可以结婚了！"我说："你真这么想吗？"其实只为了说点什么。</span></em>
+        <em tabindex="0">禁烟<span class="q">开头几天真是极其难受。那可能是对我打击最大的一件事。我甚至吮吸从木板床揪下的细屑作为替代品。</span></em>
+        <em tabindex="0">记忆练习<span class="q">几个星期后，我纯粹靠罗列房间里的东西就能打发好几个小时。我由此推论，在外面活一天，就能轻轻松松在监狱里活上一百年。</span></em>
+        <em tabindex="0">捷克人的故事<span class="q">入夜，她们用锤子谋杀了他，劫走钱，又将尸体抛进了河里。翌日早晨，他妻子来寻他，不明就里地报出了客人的真实身份。他妈妈因此上吊。姐姐则投了井。这则故事我反反复复读了上千遍。</span></em>
+        <em tabindex="0">对自己说话<span class="q">我听到了数月以来从没听见的东西：我清晰地听到了自己的嗓音。我认出了那个在我耳畔鸣响了许多天的声音，我突然明白，我一直在跟自己说话。</span></em>
+      </div>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅲ<small>庭审</small></div>
+    <div class="ch-body">
+      <h3>证人席上的葬礼 · "罪恶的心"</h3>
+      <p>六月的巡回法庭闷热如蒸笼。院长作证：葬礼那天他"连妈妈的遗体都不想看一眼，也没流过一滴眼泪"；守门人作证：他抽了烟、睡了觉、喝了奶咖——"我头一次觉得自己有罪"。玛丽被逼供出"葬礼第二天就去游泳、看喜剧片"，雷蒙被指认为拉皮条的、默尔索是"同谋"。瑟莱斯特只反复说："这是一场厄运。"检察官最终宣告："他为母亲送葬时怀着一颗罪恶的心。"</p>
+      <div class="ch-points">
+        <em tabindex="0">院长的证词<span class="q">他说葬礼那天我的冷静让人吃惊。他被要求解释"冷静"具体指什么意思。他盯着自己的鞋尖，说我连妈妈的遗体都不想看一眼，也没流过一滴眼泪，葬礼结束后我就马上离开了，也没在妈妈墓前默哀。</span></em>
+        <em tabindex="0">守门人的证词<span class="q">他说我拒绝看妈妈的遗体，说我抽烟，说我睡了觉，说我喝了加奶的咖啡。我察觉到一阵骚动在法庭上蔓延开来，我头一次觉得自己有罪。</span></em>
+        <em tabindex="0">玛丽的证词<span class="q">他指着我，一字一顿地说道，"各位陪审团成员，请你们注意，这个男人在母亲葬礼后的第二天就去游泳，跟一个女孩发生了关系，还看着喜剧片哈哈大笑。这就是我要说的话了。"</span></em>
+        <em tabindex="0">"这是一场厄运"<span class="q">他说："在我看来这纯属一场厄运。一场厄运，你们所有人都知道这是什么意思。随便你们怎么想。但是！对于我，它就是一场意外的厄运。"</span></em>
+        <em tabindex="0">"罪恶的心"<span class="q">"没错，"他愤愤地高声喊道，"我就是要指控：他为母亲送葬时怀着一颗罪恶的心。"</span></em>
+      </div>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅳ<small>判决</small></div>
+    <div class="ch-body">
+      <h3>"取此人的脑袋" · 斩首示众</h3>
+      <p>检察官结案陈词：这是一桩"有预谋的谋杀"，默尔索"没有灵魂，没有人性，心中毫无道德准则"，并以"从道德上杀死自己的母亲"为明天的弑父案做铺垫，请求陪审团"取下此人的脑袋"。轮到默尔索辩解，他只说"那是由于太阳的缘故"，法庭哄笑。律师以"是我杀的人"收尾。陪审团退庭三刻钟后，庭长宣布：以法兰西人民之名，斩首示众。</p>
+      <div class="ch-points">
+        <em tabindex="0">"取下此人的脑袋"<span class="q">"我请求你们取下此人的脑袋，"他说，"当我做这样的请求，心境是如此无碍……从这张毫无人性的脸上，我只感受到深深的憎恶。"</span></em>
+        <em tabindex="0">"那是由于太阳的缘故"<span class="q">我说得有点口齿不清、语无伦次，同时意识到这听起来极其可笑。我说，那是由于太阳的缘故。我听见法庭里响起一阵哄笑。</span></em>
+        <em tabindex="0">"是我杀的人"<span class="q">有那么一刻，我竖起耳朵听见他说："是我杀的人。"他继续用这种口吻说了下去，使用"我"的时候，实际上指的是我本人。</span></em>
+        <em tabindex="0">斩首示众<span class="q">庭长直接以一种怪异的口吻宣布：以法兰西人民之名，我将被斩首示众。那一瞬间，我似乎理解了在场所有人的表情：一种礼貌的怜悯。</span></em>
+      </div>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <div class="ch-mark">Ⅴ<small>终局</small></div>
+    <div class="ch-body">
+      <h3>等待黎明 · 拒绝神甫 · 与宇宙和解</h3>
+      <p>默尔索整夜等待黎明，研究断头台的构造，幻想着上诉与特赦。神甫第三次来访，劝他皈依，他爆发出长篇吼叫——"没什么是重要的"，并告诉神甫，如果一个人"因为没在妈妈的葬礼上哭泣而被控以谋杀罪处决，那有什么要紧的？"神甫走后，他望着星光，"前所未有地敞开了自己，将自己交付于宇宙那温柔的冷漠"，准备重新活一遍。</p>
+      <div class="ch-points">
+        <em tabindex="0">等待黎明<span class="q">我知道，他们通常在黎明时到来。因此，我整夜整夜地等待黎明。我从不喜欢突发的事。有什么事要发生的时候，我宁愿做好准备。</span></em>
+        <em tabindex="0">断头台<span class="q">实际上，断头台就简简单单摆在地上，没什么比这更简陋的了。也比我想象的要窄得多。……人靠近它，就像跟另一个人相遇。</span></em>
+        <em tabindex="0">玛丽的淡漠<span class="q">她死了，她让我失去了兴趣。这很正常，就像我很清楚，我死后人们就会忘掉我。他们跟我之间不再有任何关联。</span></em>
+        <em tabindex="0">爆发<span class="q">我声嘶力竭地大叫，辱骂他，叫他不要给我祈祷。我揪住他法衣的领口。我在愤怒和快乐的混合驱动下，朝他倾泻我心底酝酿的一切。</span></em>
+        <em tabindex="0">宇宙的温柔冷漠<span class="q">凝视着遍布星光、充满象征意味的夜空，我前所未有地敞开了自己，将自己交付于宇宙那温柔的冷漠。我感觉它就如我一般，像是一位兄弟。</span></em>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ===== 页二：评论 ===== -->
+<section class="page" id="comments">
+  <div class="section-head">
+    <span class="section-num">第一章的回响</span>
+    <h2 class="section-title">书评 · 关于那句开头</h2>
+    <span class="section-note">公开书评与文章摘录</span>
+  </div>
+
+  <div class="comment">
+    <div class="c-no">01</div>
+    <div>
+      <p>这个开头是如此地著名，可以说，在文学史上，这个开头和《百年孤独》的开头构成了两座丰碑。</p>
+      <span class="c-who">作家 毕飞宇 · 中国作家网《毕飞宇读加缪〈局外人〉：一生的内容》 · <a href="https://www.chinawriter.com.cn/n1/2021/0916/c404030-32229253.html" target="_blank" rel="noopener">原文</a></span>
+    </div>
+  </div>
+
+  <div class="comment">
+    <div class="c-no">02</div>
+    <div>
+      <p>翻开加缪的《局外人》，劈头就看见这么一句："今天，妈妈死了。"紧接着就是一转："也许是昨天……"一折一转，看似不经意，却已像石子投入水中，生出第一圈涟漪……《局外人》的第一句话实在是很不平常的。"妈妈……"，这样亲昵的口吻分明只会出自孩子。</p>
+      <span class="c-who">译者、学者 郭宏安 · 谈加缪《局外人》（豆瓣读书原文摘录） · <a href="https://book.douban.com/subject/1052203/blockquotes?sort=page_num" target="_blank" rel="noopener">原文</a></span>
+    </div>
+  </div>
+
+  <div class="comment">
+    <div class="c-no">03</div>
+    <div>
+      <p>默尔索一直活得非常贴近身体，身体的感受即内心的感受，而非通过社会语言表达自我，毕竟，语言是巧言令色的。《局外人》从第一章开始就在不断逼我们思考：一个人的行为本身，和我们赋予这个行为的意义，到底是不是同一件事？</p>
+      <span class="c-who">豆瓣书评《一个无法把感情翻译成社会语言的人》 · <a href="https://book.douban.com/review/17803234/" target="_blank" rel="noopener">原文</a></span>
+    </div>
+  </div>
+
+  <div class="comment">
+    <div class="c-no">04</div>
+    <div>
+      <p>我是非常能共情默尔索的——哎呀，自我暴露了我是一个人潜在的危险人物。默尔索是社会的边缘人（或称"局外人"）。在他流水账的自述中，他对母亲的死没有表现出社会期待的情绪。</p>
+      <span class="c-who">豆瓣书评《阳光的炽热，似乎要把他烤熟》 · <a href="https://book.douban.com/review/15461690/" target="_blank" rel="noopener">原文</a></span>
+    </div>
+  </div>
+
+  <div class="comment">
+    <div class="c-no">05</div>
+    <div>
+      <p>《局外人》的第一句话"今天妈妈死了"，语言非常简单。但小说中有一段主人公收到电报的情节……发报要考虑怎么省字，而且发电报的是一个机构，这是很明显的"局内人"的语言模式。</p>
+      <span class="c-who">光明网《加缪之思，于荒诞寻拯救》 · <a href="http://reader.gmw.cn/2025-09/08/content_38270667.htm" target="_blank" rel="noopener">原文</a></span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 页五：人物与关系 ===== -->
+<section class="page" id="people">
+  <div class="section-head">
+    <span class="section-num">关系网络</span>
+    <h2 class="section-title">人物关系图</h2>
+    <span class="section-note">静态布局 · 悬停查看关系</span>
+  </div>
+  <div class="graph-wrap">
+    <div id="relationChart"></div>
+    <div class="graph-legend">
+      <span><i style="background:#211D18"></i>主角</span>
+      <span><i style="background:#C2572B"></i>情感关系</span>
+      <span><i style="background:#4A7A6C"></i>邻里朋友</span>
+      <span><i style="background:#8A7A56"></i>养老院</span>
+      <span><i style="background:#B03A3A"></i>冲突方</span>
+      <span><i style="background:#6E7F8C"></i>社会机构</span>
+      <span><i style="background:#7B5E8F"></i>司法</span>
+    </div>
+    <div class="graph-legend">
+      <span><b style="background:#9A431F"></b>亲情</span>
+      <span><b style="background:#C2572B"></b>爱情</span>
+      <span><b style="background:#4A7A6C"></b>友邻</span>
+      <span><b style="background:#B03A3A"></b>冲突敌对</span>
+      <span><b style="background:#8A7A56"></b>照护服务</span>
+      <span><b style="background:#6E7F8C"></b>职场 · 执法</span>
+      <span><b style="background:#7B5E8F"></b>司法</span>
+    </div>
+    <p class="graph-note">每个头像对应一位人物；连线颜色表示关系类型，悬停任一人名或连线可查看说明。</p>
+    <div id="personDetail" style="min-height:0;padding:0 6px 12px;font-family:var(--sans)"></div>
+  </div>
+
+  <div class="section-head" style="margin-top:56px">
+    <span class="section-num">人物档案</span>
+    <h2 class="section-title">主要人物一览</h2>
+    <span class="section-note">身份 · 与默尔索的关系</span>
+  </div>
+  <table>
+    <colgroup><col><col><col></colgroup>
+    <thead>
+      <tr><th>人物</th><th>身份</th><th>与默尔索的关系</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>默尔索<span class="role">叙述者 · 职员</span></td><td>阿尔及尔小职员，一切"无所谓"，以第一人称讲述全部故事</td><td>故事中心</td></tr>
+      <tr><td>母亲<span class="role">默尔索夫人</span></td><td>丧偶老人，三年前住进马朗戈养老院，第一部开篇去世</td><td>母子；葬礼是全书审判的起点</td></tr>
+      <tr><td>玛丽·卡多娜<span class="role">恋人</span></td><td>前办公室打字员，热情开朗，探监后因"不是妻子"再不能见</td><td>恋人；求婚成功，默尔索言明不爱</td></tr>
+      <tr><td>雷蒙·桑特斯<span class="role">邻居 · 哥们儿</span></td><td>自称仓库管理员，邻居传言他吃软饭；与摩尔人情妇纠纷</td><td>邻居结为朋友；代写羞辱信、作证，庭审被指"同谋"</td></tr>
+      <tr><td>阿拉伯人<span class="role">情妇的哥哥</span></td><td>跟踪雷蒙复仇，海滩殴斗中与默尔索对峙</td><td>冲突；被默尔索连开五枪打死</td></tr>
+      <tr><td>雷蒙的情妇<span class="role">摩尔人女子</span></td><td>受雷蒙供养又被殴打，未直接出场</td><td>通过雷蒙的讲述出场；其兄即被杀者</td></tr>
+      <tr><td>萨拉马诺<span class="role">邻居老人</span></td><td>同楼老人，与癞皮狗相依八年，狗在第四周走失</td><td>邻居；庭审作证"我和妈妈没什么共同语言"</td></tr>
+      <tr><td>马松<span class="role">雷蒙的老友</span></td><td>滨海别墅主人，高大健壮，周末度假</td><td>通过雷蒙结识；海滩殴斗的参与者</td></tr>
+      <tr><td>马松夫人<span class="role">巴黎女人</span></td><td>热情友善，与玛丽一见如故</td><td>同游别墅；促成默尔索"意识到快要结婚"</td></tr>
+      <tr><td>托马·佩雷<span class="role">母亲的挚友</span></td><td>养老院老人，与母亲形影不离，被取笑为"未婚夫"</td><td>送葬时扶灵、昏倒；庭审说"悲伤压倒了我"</td></tr>
+      <tr><td>瑟莱斯特<span class="role">餐馆老板</span></td><td>白胡子大肚的常去餐馆老板</td><td>"顾客兼朋友"；庭审辩护"这是一场厄运"</td></tr>
+      <tr><td>艾玛纽埃尔<span class="role">同事</span></td><td>发货处同事，与默尔索追卡车、看电影</td><td>同事之谊</td></tr>
+      <tr><td>院长 / 守门人<span class="role">马朗戈养老院</span></td><td>矮小院长与健谈的巴黎守门人</td><td>接待奔丧、安排葬礼；庭审作证"冷静让人吃惊"</td></tr>
+      <tr><td>老板<span class="role">上司</span></td><td>提议调默尔索去巴黎设办事处</td><td>雇佣；默尔索答"怎样都好"</td></tr>
+      <tr><td>警察 / 神甫<span class="role">社会机构</span></td><td>处理雷蒙殴斗案的警察；主持葬礼、又探监劝皈依的神甫</td><td>执法与仪式层面的接触；第二部Ⅴ中爆发冲突</td></tr>
+      <tr><td>预审法官<span class="role">第二部 · 司法</span></td><td>瘦削、深蓝眼睛、灰胡须；审讯十一个月</td><td>追问第一枪与第二枪之间为何停顿；称他"反基督先生"</td></tr>
+      <tr><td>律师<span class="role">第二部 · 司法</span></td><td>圆滚滚的小个子，深色西装、条纹领带</td><td>劝他谎称"抑制情绪"被拒；庭审代他发言</td></tr>
+      <tr><td>检察官<span class="role">第二部 · 司法</span></td><td>瘦高、戴夹鼻眼镜、红袍</td><td>指控"为母亲送葬时怀着一颗罪恶的心"，请求"取下此人的脑袋"</td></tr>
+      <tr><td>庭长<span class="role">第二部 · 司法</span></td><td>红袍法官，主持庭审</td><td>宣布"以法兰西人民之名，我将被斩首示众"</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== 页四：时间轴 ===== -->
+<section class="page" id="timeline">
+  <div class="section-head">
+    <span class="section-num">事件序列</span>
+    <h2 class="section-title">情节时间轴</h2>
+    <span class="section-note">从母逝到判决 · 十一个月</span>
+  </div>
+  <div class="tl">
+    <div class="tl-row">
+      <div class="tl-time">第一部 · Ⅰ</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-body">
+        <span class="tag part1">开端</span>
+        <h4>电报奔丧 · 守灵 · 烈日下葬母</h4>
+        <p>养老院电报"母逝。明日葬。"，默尔索赴马朗戈守灵一夜，拒绝看遗容，次日顶着酷热为母亲下葬。</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">第一部 · Ⅱ</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-body">
+        <span class="tag part1">日常</span>
+        <h4>重逢玛丽 · 独自俯看街道</h4>
+        <p>港口浴场与玛丽·卡多娜重逢，共度两日；周日独自在阳台看人群流动，感叹"一切都还是老样子"。</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">第一部 · Ⅲ</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-body">
+        <span class="tag part1">结识</span>
+        <h4>雷蒙求助 · 代写羞辱信</h4>
+        <p>邻居雷蒙讲述情妇之祸，请默尔索代笔羞辱信；信成，两人结为"哥们儿"。</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">第一部 · Ⅳ</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-body">
+        <span class="tag part1">冲突</span>
+        <h4>殴打情妇 · 警察介入 · 丢狗</h4>
+        <p>雷蒙当众殴打情妇，警察扇他一巴掌；默尔索答应作证。邻人萨拉马诺的狗失踪，老人啜泣。</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">第一部 · Ⅴ</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-body">
+        <span class="tag part1">转折</span>
+        <h4>巴黎之邀 · 玛丽求婚 · 被跟踪</h4>
+        <p>老板提议调任巴黎，默尔索答"怎样都好"；玛丽求婚，他同意但言明不爱；雷蒙称情妇的哥哥带人跟踪他。</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">第一部 · Ⅵ</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-body">
+        <span class="tag part1">枪击</span>
+        <h4>海滩殴斗 · 阳光下连开五枪</h4>
+        <p>马松别墅外沙滩殴斗，雷蒙被刀划伤；午后默尔索独自折返，烈日下向阿拉伯人开枪，又补射四枪——"我意识到自己摧毁了一种光的平衡"。</p>
+      </div>
+    </div>
+
+    <div class="tl-break">第二部 · 十一个月</div>
+
+    <div class="tl-row">
+      <div class="tl-time">第二部 · Ⅰ</div>
+      <div class="tl-axis"><span class="tl-dot alt"></span></div>
+      <div class="tl-body">
+        <span class="tag">审讯</span>
+        <h4>预审十一个月 · 十字架前的"不"</h4>
+        <p>律师警告"葬礼上无动于衷"将成为指控；预审法官追问第一枪与第二枪之间为何停顿，又举着十字架问他是否信上帝，默尔索答"不"。</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">第二部 · Ⅱ</div>
+      <div class="tl-axis"><span class="tl-dot alt"></span></div>
+      <div class="tl-body">
+        <span class="tag">牢狱</span>
+        <h4>玛丽最后一次探监 · 学会消磨时间</h4>
+        <p>玛丽隔栅栏喊"等你出来我们就结婚"，此后因"不是妻子"再不能探望。禁烟、练习记忆、反复读捷克人的新闻，他渐渐习惯了牢房。</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">第二部 · Ⅲ</div>
+      <div class="tl-axis"><span class="tl-dot alt"></span></div>
+      <div class="tl-body">
+        <span class="tag">庭审</span>
+        <h4>证人席上的葬礼 · "罪恶的心"</h4>
+        <p>院长与守门人作证葬礼上的冷静；检察官质问"母亲葬礼后第二天就去游泳、看喜剧片"；瑟莱斯特说"这是一场厄运"；检察官宣告"他为母亲送葬时怀着一颗罪恶的心"。</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">第二部 · Ⅳ</div>
+      <div class="tl-axis"><span class="tl-dot alt"></span></div>
+      <div class="tl-body">
+        <span class="tag">判决</span>
+        <h4>"那是由于太阳的缘故" · 斩首示众</h4>
+        <p>检察官请求"取下此人的脑袋"；默尔索辩解"那是由于太阳的缘故"，引来哄笑；陪审团退庭后，庭长宣布：以法兰西人民之名，斩首示众。</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">第二部 · Ⅴ</div>
+      <div class="tl-axis"><span class="tl-dot alt"></span></div>
+      <div class="tl-body">
+        <span class="tag">终局</span>
+        <h4>等待黎明 · 与宇宙的温柔冷漠和解</h4>
+        <p>默尔索研究断头台、整夜等待黎明、拒绝神甫，并在爆发中吼出"没什么是重要的"；神甫离去后，他"将自己交付于宇宙那温柔的冷漠"，准备重新活一遍。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 页三：开枪之前 ===== -->
+<section class="page" id="beach">
+  <div class="section-head">
+    <span class="section-num">第一部 · Ⅵ 末尾</span>
+    <h2 class="section-title">开枪之前，那片海滩</h2>
+    <span class="section-note">被阳光写成的一段</span>
+  </div>
+  <div class="spotlight">
+    <div class="s-kicker">原文节录 · 默尔索独自折返之后</div>
+    <h3>"我觉得自己要做的就是掉头走开，一切都会结束。可是与太阳一起颤抖的整片海滩从背后推着我。"</h3>
+    <p class="s-quote">依旧是明晃晃的红。窒息的大海急切地吐纳着细浪，细浪漫上沙地。我朝岩石走去，烈日照得我前额肿痛不堪。热浪重重地击打着我，阻挡我前进。每当我感觉热浪席卷我的脸，我就咬咬牙，握紧藏在裤子口袋里的拳头，穷尽浑身之力去克服烈日和它倾泻给我的晦涩不明的醉意。每当沙地里一块白贝壳或一片碎玻璃射出刺目的光，我的下颚就会绷紧。</p>
+    <p class="s-quote">我离他还有一段距离，大约十米远吧。我隐约看见，他两片眼睑之间半闭的眼睛时不时瞅着我。但大多数时刻，他的影像在我眼前、在燃烧的空气里跳舞。波浪的声音比午间更慵懒和平静。而太阳热力不减，同样的光照在一直延伸到我脚下的这同一片沙子上。太阳盘踞在头顶有两个小时之久，足足两个小时，白昼在这片沸腾的金属之海里抛下了锚。</p>
+    <p class="s-quote">我觉得自己要做的就是掉头走开，一切都会结束。可是与太阳一起颤抖的整片海滩从背后推着我。我朝泉水走了几步。阿拉伯人没有动……我再也受不了这种灼烧，就往前挪了一步。我知道这很蠢，我知道不可能靠小小的一步就能摆脱掉太阳。但我挪了一步，仅仅那一步。</p>
+    <p class="s-quote">钢质的刀身划出一道<em class="hl">光</em>，像是刺入我前额的一柄亮闪闪的长剑。就在那一瞬，本来汇集在眉毛上的汗水突然流到眼睑上，像覆盖了一层温暖而厚重的面纱。混合着盐和泪的帘子挡住了我的视野。我只感觉到太阳像铙一样冲击着前额……随即一切都开始晃动。大海吼出一声沉重而灼人的叹息。天空的表面好像裂开了，火焰瓢泼而下。我的整个身躯绷紧，抽搐的手把枪握得更紧。扳机扣动了，我摸到枪托滑溜溜的肚子，而就在那里，在一声干瘪而震耳欲聋的响声中，一切开始了。我一下就摆脱了汗水和烈日。<em class="hl">我意识到自己摧毁了一种光的平衡，摧毁了曾使我欢愉的海滨那过剩的寂静。</em></p>
+    <p class="s-note">加缪没有写"他开枪杀人"，写的是太阳、汗、泪、盐、刀上的光，以及一片"沸腾的金属之海"。杀死阿拉伯人的是扳机，也是两个小时的烈日——正因如此，第二部里默尔索在法庭上只答了一句："那是由于太阳的缘故。"</p>
+  </div>
+
+  <div class="section-head" style="margin-top:44px">
+    <span class="section-num">想象那片海滩</span>
+    <h2 class="section-title">他站在那里</h2>
+    <span class="section-note">根据第一部Ⅵ文本想象的环境</span>
+  </div>
+  <figure class="scene-fig">
+    <img src="assets/shot-scene.jpg" alt="正午的阿尔及尔海滩：烈日、岩石、泉水与僵立的人影">
+    <figcaption>正午的沙滩空无一人，太阳盘踞在头顶足足两个小时；暗褐巨岩下渗出一泓清泉，蓝工装的阿拉伯人斜躺在岩石的阴影里，而默尔索被白热的阳光钉在近处——他原本只想躲开太阳、压力和女人的眼泪，却在泉水边再次遇见了它。</figcaption>
+  </figure>
+</section>
+
+<!-- ===== 页五：Q & A ===== -->
+<section class="page" id="qa">
+  <div class="section-head">
+    <span class="section-num">读后三问</span>
+    <h2 class="section-title">Q & A</h2>
+    <span class="section-note">狗、哲理与默尔索的爱情</span>
+  </div>
+
+  <article class="qa">
+    <h3><span class="q-mark">问</span>为什么要写到那条狗？它在故事里有什么用？</h3>
+    <div class="qa-body">
+      <p>萨拉马诺和他那条满身痂疮的老狗，在小说里占了好几页。它不只是一个邻居家的细节，而是整部小说的一面镜子。</p>
+      <p><strong>它先照出"习惯"与"爱"的分别。</strong>老人和狗互相憎恨又离不开彼此，相依八年。他骂它、抽它，狗拖着绳子走在前面，老人跟不上就把它拽回来——这不是爱，是习惯。默尔索和母亲的关系正是如此：他并不表演悲伤，葬礼上"无动于衷"，但他与母亲之间也有几十年同样的习惯。萨拉马诺替读者问了一句：离不开一个人，一定要用眼泪来证明吗？</p>
+      <p><strong>它再把三种"病"并排摆在一起。</strong>狗的痂疮是病，老人的衰老是病，默尔索对世界的疏离在社会眼里也是病。老人说"衰老是一种没法治愈的病"，默尔索没有接话，但读者看见了：孤独不是某个人的不幸，而是人的处境。</p>
+      <p><strong>最要紧的是狗走失那一夜。</strong>老人站在走廊尽头啜泣，默尔索"不知道为什么想到了妈妈"。这是全书里他唯一一次主动想起母亲——不是在葬礼上，而是听见一个老人为狗哭泣的时候。这一笔证明：默尔索并非没有感情，只是他的感情不走社会规定的那条路——葬礼、眼泪、仪式——而走他自己也不知道的路。</p>
+      <p>结构上，狗的段落夹在雷蒙的暴力事件和玛丽的求婚之间。那几天他的生活是：帮雷蒙写信、作伪证、看老人哭、被求婚、说"怎样都好"。加缪要的不是情节，是日子本身；狗是这段日子里最平凡、也最沉重的一件小事。</p>
+    </div>
+  </article>
+
+  <article class="qa">
+    <h3><span class="q-mark">问</span>故事的哲理是什么？分为哪几个层次？</h3>
+    <div class="qa-body">
+      <p><strong>第一层：荒诞的处境。</strong>默尔索的"无所谓"不是麻木，是清醒。他察觉世界不回应人的意义期待——人想要理由、秩序、温情，世界只给出太阳、大海和时间。他说"人生不可能真正改变"，不是消极，是把荒诞说破了。</p>
+      <p><strong>第二层：身体的诚实。</strong>默尔索只信任身体感受到的东西：太阳晒得前额生疼、口渴、疲劳、欲望。他拒绝把情感翻译成社会语言——葬礼上该哭，恋人面前该说"我爱你"。这份诚实冒犯了社会，因为社会靠"表演情感"维持运转。</p>
+      <p><strong>第三层：审判的悖论。</strong>法庭审判的不是那颗子弹，而是他的灵魂。院长的证词、守门人的证词、玛丽的证词，全都在说他"没在葬礼上哭"。罪名不是杀人，是"怀着一颗罪恶的心为母亲送葬"。荒诞在这里露出残酷的形状：社会不按行为定罪，而按你有没有演出它要求的情感定罪。</p>
+      <p><strong>第四层：死亡与觉醒。</strong>死刑让默尔索第一次真正面对死亡。他拒绝神甫——拒绝用上帝的意义抚平死亡，爆发出一整段"没什么是重要的"。但这不是虚无：黎明前的星光下，他"前所未有地敞开自己，交付于宇宙的温柔冷漠"，并且"准备好重新活一遍"。这就是加缪说的荒诞人的反抗——明知没有意义，仍热爱生活。</p>
+      <p>一句话概括：从承认荒诞，到忠于身体，到看穿审判，最后在死亡面前选择热爱。默尔索不是输给社会的人，他是全书里唯一活明白了的人。</p>
+    </div>
+  </article>
+
+  <article class="qa">
+    <h3><span class="q-mark">问</span>你怎么看待主人公和玛丽？</h3>
+    <div class="qa-body">
+      <p>玛丽是小说里最接近"正常生活"的人，默尔索对她也是全书最接近温暖的地方。但这段关系从头到尾都在错位。</p>
+      <p>默尔索对玛丽有真实的欲望和亲近：游泳、看电影、身体，甚至愿意结婚。但他始终不说"爱"。玛丽问"你爱我吗"，他说"好像并不爱"；她求婚，他同意，理由是"怎样都好"。这不是玩弄，是他的诚实——他不肯用语言伪造一份身体里没有的感情。比起那些把"爱"挂在嘴边的人，他至少不骗她。</p>
+      <p>玛丽爱他，恰恰因为他是"怪人"。书里写得明白：她爱他的原因，正是别人觉得他奇怪的地方。她短暂地理解他——但理解也有边界：她仍然想要婚姻、想要一个能解释的爱。她活在意义系统里，他活在外面。</p>
+      <p>最锋利的一笔在法庭上：玛丽被逼问出"葬礼第二天就去游泳、看喜剧片"，成了指控默尔索的证词。最亲近的人，无意中变成审判机器的一部分。之后探监禁令切断一切："她不是他的妻子，不能再来看他。"社会允许的爱必须有名分、有语言、有表演——默尔索给不出，于是连最后的联系也被没收。</p>
+      <p>我的看法：默尔索对玛丽的爱是真实的，只是不经过语言。玛丽是被这段关系伤到的人，但小说没有美化任何一方——它只是让我们看见，在一个要求人人都表演的世界里，一个不表演的人连爱都保不住。</p>
+    </div>
+  </article>
+</section>
+</main>
+
+<!-- ===== 脚本 ===== -->
+<script>
+/* 页签切换 */
+(function(){
+  var links = document.querySelectorAll('.tabs a');
+  var pages = document.querySelectorAll('.page');
+  function show(id){
+    var found = false;
+    for(var i=0;i<pages.length;i++){
+      var on = pages[i].id === id;
+      pages[i].classList.toggle('active', on);
+      if(on) found = true;
+    }
+    for(var j=0;j<links.length;j++){
+      links[j].classList.toggle('active', links[j].getAttribute('href') === '#'+id);
+    }
+    if(found){ window.scrollTo({top:0,behavior:'auto'}); }
+    if(id === 'people'){
+      setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, 60);
+    }
+  }
+  function fromHash(){
+    var id = (location.hash||'').replace('#','');
+    if(id && document.getElementById(id)){ show(id); } else { show('story'); }
+  }
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+})();
+
+/* 人物关系图（静态布局，不可拖动） */
+(function(){
+  var categories = [
+    {name:'主角', color:'#211D18'},
+    {name:'情感关系', color:'#C2572B'},
+    {name:'邻里朋友', color:'#4A7A6C'},
+    {name:'养老院', color:'#8A7A56'},
+    {name:'冲突方', color:'#B03A3A'},
+    {name:'社会机构', color:'#6E7F8C'},
+    {name:'司法', color:'#7B5E8F'}
+  ];
+  var av = function(n){ return 'image://assets/avatars/'+n+'.jpg'; };
+
+  var nodes = [
+    {name:'默尔索', category:0, symbol:av('meursault'), symbolSize:54, x:'48%', y:'50%', desc:'阿尔及尔小职员，故事的叙述者。对工作、爱情、生死都抱以"无所谓"，第一部末尾在海滩的烈日下开枪打死阿拉伯人，第二部被判斩首。', tags:['叙述者','开枪者','被判斩首']},
+    {name:'母亲', category:3, symbol:av('mother'), symbolSize:44, x:'10%', y:'24%', desc:'默尔索的母亲，三年前入住马朗戈养老院，开篇即去世。默尔索奔丧、守灵、下葬，却始终"觉得妈妈像是还没死"。', tags:['开篇去世','葬礼审判起点']},
+    {name:'玛丽·卡多娜', category:1, symbol:av('marie'), symbolSize:44, x:'8%', y:'62%', desc:'默尔索的恋人，主动求婚。默尔索同意结婚却言明不爱她，她称他是"怪人"——这正是她爱他的原因。探监后因"不是妻子"再不能见。', tags:['恋人','求婚','最后一次探监']},
+    {name:'雷蒙·桑特斯', category:2, symbol:av('raymond'), symbolSize:44, x:'28%', y:'72%', desc:'邻居，自称仓库管理员。与摩尔人情妇纠纷，请默尔索代写羞辱信、为其作证，两人结为"哥们儿"；庭审被指认拉皮条。', tags:['邻居','哥们儿','殴斗主角']},
+    {name:'阿拉伯人', category:4, symbol:av('arab'), symbolSize:48, x:'22%', y:'42%', desc:'雷蒙情妇的哥哥，带人跟踪雷蒙复仇。海滩殴斗后与默尔索对峙，被烈日下的默尔索连开五枪打死。', tags:['冲突方','被杀者']},
+    {name:'雷蒙的情妇', category:1, symbol:av('mistress'), symbolSize:38, x:'7%', y:'84%', desc:'摩尔人女子，受雷蒙供养又被殴打，未直接出场。她的哥哥就是海滩上被默尔索打死的人。', tags:['未出场','纠纷源头']},
+    {name:'萨拉马诺', category:2, symbol:av('salamano'), symbolSize:42, x:'40%', y:'84%', desc:'同楼老人，与癞皮狗相依八年，狗在第四周走失。老人崩溃啜泣，默尔索"不知道为什么想到了妈妈"。', tags:['邻居','丢狗','孤独镜像']},
+    {name:'瑟莱斯特', category:2, symbol:av('celeste'), symbolSize:38, x:'56%', y:'82%', desc:'餐馆老板。母亲去世时安慰默尔索："每个人都只有一个妈妈。"庭审上反复说："这是一场厄运。"', tags:['餐馆','庭审辩护']},
+    {name:'艾玛纽埃尔', category:2, symbol:av('emmanuel'), symbolSize:36, x:'68%', y:'74%', desc:'发货处同事，与默尔索追卡车、看滑稽电影，是办公室之外最亲近的同事。', tags:['同事','同游']},
+    {name:'马松', category:2, symbol:av('masson'), symbolSize:42, x:'60%', y:'62%', desc:'雷蒙的老友，滨海别墅主人，周末度假。海滩殴斗中把第二个阿拉伯人打趴在水里。', tags:['别墅主人','殴斗参与者']},
+    {name:'马松夫人', category:2, symbol:av('masson-wife'), symbolSize:38, x:'74%', y:'64%', desc:'马松的妻子，巴黎女人，与玛丽一见如故。她们的交谈让默尔索第一次意识到自己"快要结婚了"。', tags:['友善','婚姻暗示']},
+    {name:'托马·佩雷', category:3, symbol:av('perez'), symbolSize:42, x:'14%', y:'38%', desc:'母亲在养老院的挚友，与她形影不离，被大家取笑是她的"未婚夫"。送葬时扶灵，在坟前昏倒。', tags:['母亲的挚友','送葬昏倒']},
+    {name:'院长', category:3, symbol:av('director'), symbolSize:42, x:'36%', y:'10%', desc:'马朗戈养老院院长，矮小、佩荣誉军团勋章。接待奔丧的默尔索，解释母亲入住原因并安排葬礼；庭审作证"冷静让人吃惊"。', tags:['养老院','葬礼安排','庭审证人']},
+    {name:'守门人', category:3, symbol:av('doorkeeper'), symbolSize:40, x:'55%', y:'9%', desc:'养老院守门人，六十五岁的巴黎人，健谈。守灵夜与默尔索抽烟、喝奶咖；庭审作证这些细节令默尔索"头一次觉得自己有罪"。', tags:['守灵陪同','庭审证人']},
+    {name:'护士代表', category:3, symbol:av('nurse'), symbolSize:34, x:'70%', y:'12%', desc:'送葬队伍中的护士代表，瘦长的脸不带一丝笑容，全程沉默随行。', tags:['送葬随行']},
+    {name:'老板', category:5, symbol:av('boss'), symbolSize:42, x:'84%', y:'38%', desc:'默尔索的上司。提议调他去巴黎办事处，默尔索答"怎样都好"，并说"人生不可能真正改变"。', tags:['上司','巴黎提议']},
+    {name:'警察', category:5, symbol:av('policeman'), symbolSize:38, x:'88%', y:'56%', desc:'处理雷蒙殴打情妇案的警察，扇了雷蒙一巴掌；雷蒙因此要求默尔索作证脱身。', tags:['执法','介入殴斗']},
+    {name:'神甫', category:5, symbol:av('priest'), symbolSize:38, x:'80%', y:'24%', desc:'马朗戈神甫，主持母亲的葬礼，称默尔索为"我的儿子"；第二部中又到牢房劝他皈依，被默尔索爆发地吼走。', tags:['葬礼主持','劝皈依']},
+    {name:'预审法官', category:6, symbol:av('judge'), symbolSize:44, x:'93%', y:'14%', desc:'瘦削、深蓝眼睛、灰胡须的预审法官。审讯十一个月，追问第一枪与第二枪之间为何停顿，挥舞十字架问他信不信上帝，最后称他"反基督先生"。', tags:['审讯十一个月','十字架']},
+    {name:'律师', category:6, symbol:av('lawyer'), symbolSize:42, x:'97%', y:'32%', desc:'圆滚滚的小个子，深色西装、条纹领带。劝默尔索谎称"在竭力抑制情绪"被拒；庭审替他发言，以"是我杀的人"收尾。', tags:['辩护','代辩']},
+    {name:'检察官', category:6, symbol:av('prosecutor'), symbolSize:44, x:'96%', y:'50%', desc:'瘦高、戴夹鼻眼镜、穿红袍的检察官。指控默尔索"为母亲送葬时怀着一颗罪恶的心"，请求陪审团"取下此人的脑袋"。', tags:['控方','请求斩首']},
+    {name:'庭长', category:6, symbol:av('presiding'), symbolSize:44, x:'90%', y:'68%', desc:'红袍庭长，主持整个庭审，最终宣布："以法兰西人民之名，我将被斩首示众。"', tags:['主持庭审','宣判']}
+  ];
+
+  var links = [
+    {source:'默尔索', target:'母亲', relType:'亲情', label:'母子'},
+    {source:'默尔索', target:'玛丽·卡多娜', relType:'爱情', label:'恋人'},
+    {source:'默尔索', target:'雷蒙·桑特斯', relType:'友邻', label:'邻居·哥们儿'},
+    {source:'默尔索', target:'萨拉马诺', relType:'友邻', label:'邻居'},
+    {source:'默尔索', target:'瑟莱斯特', relType:'友邻', label:'常客'},
+    {source:'默尔索', target:'艾玛纽埃尔', relType:'友邻', label:'同事'},
+    {source:'默尔索', target:'马松', relType:'友邻', label:'经雷蒙结识'},
+    {source:'默尔索', target:'马松夫人', relType:'友邻', label:'别墅同游'},
+    {source:'默尔索', target:'老板', relType:'职场', label:'雇佣'},
+    {source:'默尔索', target:'院长', relType:'照护', label:'母亲养老'},
+    {source:'默尔索', target:'守门人', relType:'照护', label:'守灵陪同'},
+    {source:'默尔索', target:'护士代表', relType:'照护', label:'送葬随行'},
+    {source:'默尔索', target:'神甫', relType:'照护', label:'葬礼主持·劝皈依'},
+    {source:'默尔索', target:'阿拉伯人', relType:'冲突', label:'枪杀'},
+    {source:'默尔索', target:'警察', relType:'职场', label:'作证·不喜警察'},
+    {source:'默尔索', target:'预审法官', relType:'司法', label:'审讯十一个月'},
+    {source:'默尔索', target:'律师', relType:'司法', label:'辩护'},
+    {source:'默尔索', target:'检察官', relType:'司法', label:'指控'},
+    {source:'默尔索', target:'庭长', relType:'司法', label:'审判·宣判'},
+    {source:'雷蒙·桑特斯', target:'雷蒙的情妇', relType:'冲突', label:'供养·殴打'},
+    {source:'雷蒙·桑特斯', target:'阿拉伯人', relType:'冲突', label:'被跟踪·殴斗'},
+    {source:'雷蒙·桑特斯', target:'马松', relType:'友邻', label:'老友'},
+    {source:'雷蒙·桑特斯', target:'警察', relType:'职场', label:'被执法'},
+    {source:'马松', target:'马松夫人', relType:'友邻', label:'夫妻'},
+    {source:'玛丽·卡多娜', target:'马松夫人', relType:'友邻', label:'同游交谈'},
+    {source:'母亲', target:'托马·佩雷', relType:'友邻', label:'挚友·"未婚妻"'},
+    {source:'母亲', target:'院长', relType:'照护', label:'入住养老院'},
+    {source:'母亲', target:'守门人', relType:'照护', label:'看护'},
+    {source:'雷蒙的情妇', target:'阿拉伯人', relType:'亲情', label:'兄妹'},
+    {source:'律师', target:'检察官', relType:'司法', label:'控辩对抗'},
+    {source:'检察官', target:'庭长', relType:'司法', label:'公堂'}
+  ];
+
+  var relColor = {
+    '亲情':'#9A431F','爱情':'#C2572B','友邻':'#4A7A6C',
+    '冲突':'#B03A3A','照护':'#8A7A56','职场':'#6E7F8C','司法':'#7B5E8F'
+  };
+  var relName = {'亲情':'亲情','爱情':'爱情','友邻':'友邻','冲突':'冲突敌对','照护':'照护服务','职场':'职场·执法','司法':'司法'};
+
+  var chart = echarts.init(document.getElementById('relationChart'));
+  var option = {
+    backgroundColor:'transparent',
+    animation:false,
+    tooltip:{
+      trigger:'item',
+      confine:true,
+      backgroundColor:'rgba(33,29,24,.94)',
+      borderWidth:0,
+      padding:[10,14],
+      textStyle:{color:'#F4EFE6',fontFamily:'Noto Sans SC',fontSize:12.5,lineHeight:1.8},
+      formatter:function(p){
+        if(p.dataType === 'edge'){
+          return '<b>'+p.data.label+'</b><br/>关系类型：'+relName[p.data.relType];
+        }
+        return '<b>'+p.data.name+'</b><br/>'+p.data.desc;
+      }
+    },
+    series:[{
+      type:'graph',
+      layout:'none',
+      roam:false,
+      draggable:false,
+      data:nodes,
+      links:links,
+      categories:categories,
+      label:{
+        show:true,
+        position:'bottom',
+        distance:6,
+        color:'#211D18',
+        fontFamily:'Noto Serif SC',
+        fontSize:12,
+        fontWeight:600,
+        formatter:function(p){return p.dataType==='edge'?'':p.data.name;}
+      },
+      lineStyle:{
+        width:2,
+        curveness:0.05,
+        color:function(params){return relColor[params.data.relType] || '#999';}
+      },
+      emphasis:{
+        focus:'adjacency',
+        lineStyle:{width:3.5}
+      },
+      itemStyle:{borderColor:'#F4EFE6',borderWidth:1.5}
+    }]
+  };
+  var baseW = 645, baseH = 680;
+  function reflowGraph(){
+    var box = document.getElementById('relationChart');
+    var gw = box.clientWidth || baseW;
+    var gh = box.clientHeight || baseH;
+    var ns = nodes.map(function(n){
+      var o = {};
+      for(var k in n){ o[k] = n[k]; }
+      if(typeof o.x === 'string'){ o.x = gw * parseFloat(o.x) / 100; }
+      if(typeof o.y === 'string'){ o.y = gh * parseFloat(o.y) / 100; }
+      return o;
+    });
+    option.series[0].data = ns;
+    chart.setOption(option);
+    chart.resize();
+  }
+  reflowGraph();
+
+  var detail = document.getElementById('personDetail');
+  function showDetail(d){
+    if(!d || d.dataType === 'edge'){
+      detail.innerHTML = '<p style="font-size:12.5px;color:rgba(33,29,24,.45);padding-top:6px">点击任意人物，查看其简介与关键情节。</p>';
+      return;
+    }
+    var html = '<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-top:8px">'
+      + '<span style="font-family:Noto Serif SC;font-size:17px;font-weight:700">'+d.data.name+'</span>'
+      + '<span style="font-size:11px;color:'+categories[d.data.category].color+';border:1px solid '+categories[d.data.category].color+';padding:1px 9px;border-radius:999px">'+categories[d.data.category].name+'</span>'
+      + '</div>'
+      + '<p style="font-size:13px;color:#4A433B;margin-top:6px;max-width:76ch;line-height:1.8">'+d.data.desc+'</p>';
+    if(d.data.tags){
+      html += '<div style="margin-top:8px">'+d.data.tags.map(function(t){
+        return '<span style="display:inline-block;font-size:11px;color:#9A431F;background:rgba(194,87,43,.08);border:1px solid rgba(194,87,43,.22);padding:2px 10px;border-radius:999px;margin:0 6px 6px 0">'+t+'</span>';
+      }).join('')+'</div>';
+    }
+    detail.innerHTML = html;
+  }
+  chart.on('click', showDetail);
+  showDetail(null);
+
+  window.addEventListener('resize', function(){ reflowGraph(); });
+})();
+</script>
+</body>
+</html>
